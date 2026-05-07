@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Cô Tấm!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Quicksand", sans-serif;
+        background: linear-gradient(135deg, #fce7f3 0%, #e0e7ff 100%);
+        min-height: 100vh;
+        overflow-x: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .font-pacifico {
+        font-family: "Pacifico", cursive;
+      }
+      .font-dancing {
+        font-family: "Dancing Script", cursive;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 10px 40px 0 rgba(236, 72, 153, 0.15);
+      }
+
+      /* VẼ BÁNH KEM BẰNG CSS */
+      .cake-container {
+        position: relative;
+        width: 200px;
+        height: 140px;
+        margin: 60px auto 40px auto; /* Tăng margin top để nến không chạm chữ */
+      }
+
+      .cake-layer-bottom {
+        position: absolute;
+        bottom: 0;
+        width: 200px;
+        height: 70px;
+        background: #fbcfe8;
+        border-radius: 10px;
+        box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .cake-layer-top {
+        position: absolute;
+        bottom: 70px;
+        left: 20px;
+        width: 160px;
+        height: 60px;
+        background: #fdf2f8;
+        border-radius: 10px;
+        box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.05);
+      }
+
+      .icing {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 15px;
+        background: #fff;
+        border-radius: 10px 10px 15px 15px;
+      }
+
+      /* Nến và lửa */
+      .candle-group {
+        position: absolute;
+        bottom: 130px; /* Hạ thấp nến xuống */
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .candle {
+        position: relative;
+        width: 12px;
+        height: 35px;
+        background: repeating-linear-gradient(
+          45deg,
+          #fff,
+          #fff 5px,
+          #fb7185 5px,
+          #fb7185 10px
+        );
+        border-radius: 2px;
+      }
+
+      .flame {
+        position: absolute;
+        top: -22px;
+        left: -4px;
+        width: 18px;
+        height: 25px;
+        background: #fbbf24;
+        border-radius: 50% 50% 20% 20%;
+        box-shadow:
+          0 0 15px #fde047,
+          0 0 30px #f59e0b;
+        animation: flicker 0.6s infinite alternate;
+        transform-origin: bottom center;
+        transition: all 0.4s ease-out;
+      }
+
+      @keyframes flicker {
+        0% {
+          transform: scale(1) rotate(-2deg);
+          opacity: 0.9;
+        }
+        100% {
+          transform: scale(1.1) rotate(2deg);
+          opacity: 1;
+        }
+      }
+
+      .flame.out {
+        opacity: 0;
+        transform: scale(0) translateY(-30px);
+      }
+
+      .blow-btn {
+        transition: all 0.3s ease;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 15px rgba(236, 72, 153, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+        }
+      }
+
+      .message-box {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .message-box.show {
+        opacity: 1;
+        max-height: 1200px;
+        margin-top: 2rem;
+      }
+
+      #confetti-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      .bg-element {
+        position: absolute;
+        animation: float 5s ease-in-out infinite;
+        opacity: 0.4;
+        z-index: 0;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0);
+        }
+        50% {
+          transform: translateY(-30px) rotate(10deg);
+        }
+      }
+    </style>
+  </head>
+  <body class="p-4 relative">
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Trang trí nền -->
+    <div class="bg-element text-5xl" style="top: 10%; left: 5%">🎈</div>
+    <div
+      class="bg-element text-4xl"
+      style="top: 20%; right: 10%; animation-delay: 1s"
+    >
+      ✨
+    </div>
+    <div
+      class="bg-element text-6xl"
+      style="bottom: 15%; left: 10%; animation-delay: 2s"
+    >
+      🌸
+    </div>
+    <div
+      class="bg-element text-5xl"
+      style="bottom: 20%; right: 5%; animation-delay: 1.5s"
+    >
+      🧸
+    </div>
+
+    <div
+      class="glass-card w-full max-w-2xl rounded-[2.5rem] p-6 md:p-10 text-center relative z-10 my-10"
+    >
+      <!-- Tiêu đề đã được đẩy cao và tách biệt -->
+      <div class="mb-6">
+        <h2
+          class="text-pink-400 font-bold tracking-widest text-xs md:text-sm mb-2"
+        >
+          🎁 07/05/2006 • CHÚC MỪNG SINH NHẬT • 07/05/2026 🎁
+        </h2>
+        <h1 class="text-3xl md:text-5xl font-pacifico text-pink-500">
+          Happy Birthday
+        </h1>
+        <h1 class="text-5xl md:text-7xl font-pacifico text-purple-600 mt-2">
+          Cô Tấm!
+        </h1>
+      </div>
+
+      <!-- Phần Tương tác -->
+      <div id="interaction-area" class="transition-all duration-500">
+        <p
+          id="instruction-text"
+          class="text-base md:text-lg text-gray-600 font-semibold mb-4 italic animate-pulse"
+        >
+          "Nhắm mắt lại, cầu nguyện và ước một điều đi nèe... ✨"
+        </p>
+
+        <!-- Bánh kem thấp hơn để tránh che chữ -->
+        <div class="cake-container">
+          <div class="candle-group">
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+          </div>
+          <div class="cake-layer-top"><div class="icing"></div></div>
+          <div class="cake-layer-bottom">
+            <div class="icing"></div>
+            <div
+              class="absolute w-full top-8 text-center text-pink-500 font-bold text-xs tracking-tighter"
+            >
+              SWEET 20
+            </div>
+          </div>
+        </div>
+
+        <button
+          id="blow-btn"
+          onclick="blowCandles()"
+          class="blow-btn bg-gradient-to-r from-pink-400 to-purple-500 text-white font-bold py-3 px-10 rounded-full text-lg shadow-lg border-2 border-white mb-4"
+        >
+          Thổi nến 🌬️
+        </button>
+      </div>
+
+      <!-- Khung Lời Chúc -->
+      <div
+        id="message-area"
+        class="message-box bg-white bg-opacity-80 rounded-3xl p-6 md:p-8 text-left border border-pink-100 shadow-inner text-gray-700 leading-relaxed"
+      >
+        <p class="mb-4 font-semibold text-lg">Chào "Cô Tấm" dễ thương! 👋</p>
+
+        <p class="mb-4">
+          Hôm nay là một ngày siêu đặc biệt, "Cô Tấm" chính thức bước sang tuổi
+          20 rồi đấy! Đây là lứa tuổi đẹp nhất của thanh xuân luôn. Không có gì
+          nhiều, chỉ chúc em tuổi mới luôn xinh xắn, rạng rỡ và tràn đầy năng
+          lượng nhe.
+        </p>
+
+        <p class="mb-4">
+          Dù cuộc sống sắp tới có bận rộn hay đôi lúc gặp xì-trét, thì cứ mãi
+          giữ cái nụ cười tươi rói này nhé. Và quan trọng nhất là:
+          <span class="font-bold text-pink-500 underline"
+            >Bớt thức khuya lại nha cô nương!</span
+          >
+          Để mắt thành mắt gấu trúc là không nhận "Cô Tấm" đâu đấy! 🐼
+        </p>
+
+        <p class="mb-4">
+          Chúc em có một sinh nhật thật vui, nhận được thật nhiều quà và mọi
+          điều ước lúc nãy đều sớm trở thành hiện thực nhe.
+        </p>
+
+        <p class="mb-6">Bữa nào rảnh rỗi, đi ăn bún real nhée! 🧋✨</p>
+
+        <div class="text-right mt-6">
+          <p class="font-dancing text-3xl text-purple-600">
+            Người anh em xã hội,
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function blowCandles() {
+        const flames = document.querySelectorAll(".flame");
+        flames.forEach((flame) => flame.classList.add("out"));
+
+        const btn = document.getElementById("blow-btn");
+        const instruction = document.getElementById("instruction-text");
+
+        btn.style.opacity = "0";
+        btn.style.pointerEvents = "none";
+
+        instruction.innerHTML = "Chúc mừng sinh nhật! 🎂 Quà của em đây 👇";
+        instruction.classList.remove("animate-pulse");
+        instruction.classList.add("text-pink-600", "scale-110", "font-bold");
+
+        setTimeout(() => {
+          btn.style.display = "none";
+          document.getElementById("message-area").classList.add("show");
+          fireConfetti();
+          // Tự động scroll xuống để xem lời chúc
+          setTimeout(() => {
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            });
+          }, 500);
+        }, 1000);
+      }
+
+      // --- Confetti Script ---
+      const canvas = document.getElementById("confetti-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particles = [];
+      const colors = [
+        "#fce7f3",
+        "#f9a8d4",
+        "#f472b6",
+        "#c084fc",
+        "#818cf8",
+        "#fbbf24",
+      ];
+
+      function fireConfetti() {
+        for (let i = 0; i < 150; i++) {
+          particles.push({
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            r: Math.random() * 6 + 3,
+            dx: Math.random() * 12 - 6,
+            dy: Math.random() * -15 - 5,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            tilt: Math.floor(Math.random() * 10) - 10,
+            tiltAngleInc: Math.random() * 0.07 + 0.05,
+            tiltAngle: 0,
+          });
+        }
+        animateConfetti();
+      }
+
+      function animateConfetti() {
+        requestAnimationFrame(animateConfetti);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p, i) => {
+          p.dy += 0.2;
+          p.x += p.dx;
+          p.y += p.dy;
+          p.tiltAngle += p.tiltAngleInc;
+          ctx.beginPath();
+          ctx.lineWidth = p.r;
+          ctx.strokeStyle = p.color;
+          ctx.moveTo(p.x + p.tilt + p.r, p.y);
+          ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r);
+          ctx.stroke();
+          if (p.y > canvas.height) particles.splice(i, 1);
+        });
+      }
+
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+  </body>
+</html>
